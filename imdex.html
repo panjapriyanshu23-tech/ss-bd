@@ -1,227 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You 🤍</title>
-<style>
-/* Body & background */
-body{
-  margin:0;
-  padding:0;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color:white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow:hidden;
-  text-align:center;
-  height:100vh;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Someone Special 🤍</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Dancing+Script:wght@600&display=swap');
 
-/* Stars */
-.star{
-  position:absolute;
-  background:white;
-  border-radius:50%;
-  animation: twinkle 3s infinite alternate;
-  z-index:1;
-}
-@keyframes twinkle{
-  from{opacity:0.2;}
-  to{opacity:1;}
-}
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
 
-/* Shooting stars */
-@keyframes shoot {
-  0% { transform: translateX(0) translateY(0) rotate(45deg); opacity: 1; }
-  100% { transform: translateX(120vw) translateY(60vh) rotate(45deg); opacity:0; }
-}
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-/* Container */
-.container{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:85%;
-  max-width:600px;
-  background-color: rgba(22,27,34,0.85);
-  padding: 30px;
-  border-radius:15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  z-index:10;
-  max-height:80vh;
-  overflow-y:auto;
-  border: 1px solid rgba(255,255,255,0.1);
-}
+        /* Glassmorphism Card */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            width: 85%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            z-index: 10;
+        }
 
-/* Text */
-h1{
-  font-weight:300;
-  margin-bottom:20px;
-  color: #58a6ff;
-}
-p{
-  font-size:18px;
-  line-height:1.6;
-  margin-bottom: 15px;
-  text-align: left;
-  min-height: 1.2em;
-  /* Yahan fix kiya: opacity 1 kar di */
-  opacity: 1 !important; 
-}
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
 
-/* Cursor for typewriter */
-.cursor {
-  display: inline-block;
-  width: 8px;
-  height: 18px;
-  background-color: #58a6ff;
-  margin-left:5px;
-  vertical-align: middle;
-  animation: blink 0.8s step-start infinite;
-}
-@keyframes blink{
-  50% { background-color: transparent; }
-}
+        .message-box {
+            min-height: 200px;
+            text-align: left;
+        }
 
-/* Floating hearts */
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(1); opacity:1; }
-  100% { transform: translateY(-100px) scale(1.5); opacity:0; }
-}
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
 
-/* Music play button */
-#playMusic{
-  position:fixed;
-  top:20px;
-  right:20px;
-  z-index:100;
-  padding:10px 15px;
-  background:#58a6ff;
-  border:none;
-  border-radius:20px;
-  color:white;
-  font-size:14px;
-  cursor:pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-</style>
+        /* Cursor Effect */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: white;
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Floating Stars */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: moveStar linear infinite;
+        }
+
+        @keyframes moveStar {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100vh); }
+        }
+
+        /* Music Control */
+        #musicBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        #musicBtn:hover { background: rgba(255,255,255,0.4); }
+
+    </style>
 </head>
 <body>
 
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4bfb5e.mp3" type="audio/mpeg">
-</audio>
-<button id="playMusic">🎵 Play Music</button>
+    <button id="musicBtn">🎵 Play Vibe</button>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
-<div class="container">
-  <h1>Happy Birthday 🤍</h1>
-  <p id="line1"></p>
-  <p id="line2"></p>
-  <p id="line3"></p>
-  <p id="line4"></p>
-</div>
+    <div class="card">
+        <h1>Happy Birthday 🤍</h1>
+        <div class="message-box">
+            <p id="typed-text"></p>
+        </div>
+    </div>
 
-<script>
-// =================== Music Button ===================
-const music = document.getElementById('bgMusic');
-document.getElementById('playMusic').addEventListener('click', function() {
-  if (music.paused) {
-    music.play();
-    this.innerText = "⏸ Pause Music";
-  } else {
-    music.pause();
-    this.innerText = "🎵 Play Music";
-  }
-});
+    <div id="stars"></div>
 
-// =================== Typewriter Logic ===================
-const lines = [
-`Things may not be the same anymore, and maybe they never will be, but what we shared was always real to me. No matter how much distance came between us, the memories and the respect I have for you never faded.`,
-`If I ever said or did anything that hurt you, even unintentionally, I’m truly sorry. It was never my intention to cause you pain. Please forgive me if I ever became the reason for your sadness.`,
-`On your birthday, I just want you to know that I genuinely wish you peace, growth, and all the happiness in the world. You deserve a beautiful life, with or without me in it.`,
-`Happy Birthday, dear. I’ll always wish the best for you. 🤍`
-];
+    <script>
+        const text = [
+            "Things may not be the same anymore, but what we shared was always real to me. The respect I have for you never faded. ",
+            "If I ever said or did anything that hurt you, even unintentionally, I’m truly sorry. It was never my intention to cause you pain. Please forgive me if I ever became the reason for your sadness. ",
+            "On your birthday, I just want you to know that I genuinely wish you peace, growth, and all the happiness in the world. You deserve a beautiful life, with or without me in it. ",
+            "Happy Birthday, dear. I’ll always wish the best for you. 🤍"
+        ];
 
-let currentLine = 0;
-let currentChar = 0;
-const delay = 40; // typing speed
+        let lineIndex = 0;
+        let charIndex = 0;
+        const speed = 40;
+        const target = document.getElementById("typed-text");
 
-function type() {
-  if (currentLine < lines.length) {
-    let targetElement = document.getElementById(`line${currentLine + 1}`);
-    
-    // Cursor handling
-    let cursor = document.querySelector('.cursor');
-    if(cursor) cursor.remove();
-    
-    targetElement.innerHTML = lines[currentLine].substring(0, currentChar) + '<span class="cursor"></span>';
-    
-    if (currentChar < lines[currentLine].length) {
-      currentChar++;
-      setTimeout(type, delay);
-    } else {
-      // Remove cursor from finished line and move to next
-      targetElement.innerHTML = lines[currentLine]; 
-      currentLine++;
-      currentChar = 0;
-      setTimeout(type, 800); // Pause between lines
-    }
-  }
-}
+        function type() {
+            if (lineIndex < text.length) {
+                if (charIndex < text[lineIndex].length) {
+                    // Type character by character
+                    target.innerHTML = text.slice(0, lineIndex).join("<br><br>") + 
+                                     "<br><br>" + 
+                                     text[lineIndex].substring(0, charIndex + 1) + 
+                                     '<span class="cursor"></span>';
+                    charIndex++;
+                    setTimeout(type, speed);
+                } else {
+                    // Move to next paragraph
+                    lineIndex++;
+                    charIndex = 0;
+                    setTimeout(type, 1000);
+                }
+            } else {
+                // Final text without blinking cursor at the end
+                target.innerHTML = text.join("<br><br>") + " 🤍";
+            }
+        }
 
-// Start typing on load
-window.onload = type;
+        // Start Typing
+        window.onload = () => {
+            setTimeout(type, 1000);
+            createStars();
+        };
 
-// =================== Stars Background ===================
-function createStars() {
-  for(let i=0; i<100; i++){
-    let star = document.createElement("div");
-    star.classList.add("star");
-    let size = Math.random()*3;
-    star.style.width = size + "px";
-    star.style.height = size + "px";
-    star.style.top = Math.random()*100 + "vh";
-    star.style.left = Math.random()*100 + "vw";
-    star.style.animationDuration = (Math.random()*3 + 2) + "s";
-    document.body.appendChild(star);
-  }
-}
-createStars();
+        // Background Stars
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 'px';
+                star.style.width = size;
+                star.style.height = size;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDuration = Math.random() * 5 + 5 + 's';
+                container.appendChild(star);
+            }
+        }
 
-// Shooting stars function
-function shootingStar(){
-  let star = document.createElement("div");
-  star.style.position = "absolute";
-  star.style.width = "2px";
-  star.style.height = "2px";
-  star.style.background = "white";
-  star.style.top = Math.random()*40 + "vh";
-  star.style.left = "-10px";
-  star.style.animation = "shoot 2s linear forwards";
-  star.style.zIndex = "1";
-  document.body.appendChild(star);
-  setTimeout(() => star.remove(), 2000);
-}
-setInterval(shootingStar, 4000);
-
-// =================== Heart Click Effect ===================
-document.addEventListener("click", (e) => {
-  if(e.target.id === 'playMusic') return;
-  const colors = ["#ff4d6d", "#ffb347", "#4dffb3", "#ff71ce"];
-  let heart = document.createElement("div");
-  heart.innerHTML = "❤️";
-  heart.style.position = "fixed";
-  heart.style.left = (e.clientX - 10) + "px";
-  heart.style.top = (e.clientY - 10) + "px";
-  heart.style.fontSize = "20px";
-  heart.style.pointerEvents = "none";
-  heart.style.animation = "floatUp 1s forwards ease-out";
-  heart.style.zIndex = "100";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 1000);
-});
-</script>
-
+        // Music Logic
+        const btn = document.getElementById('musicBtn');
+        const music = document.getElementById('bgMusic');
+        btn.onclick = () => {
+            if (music.paused) {
+                music.play();
+                btn.innerText = "⏸ Pause Music";
+            } else {
+                music.pause();
+                btn.innerText = "🎵 Play Vibe";
+            }
+        };
+    </script>
 </body>
 </html>
