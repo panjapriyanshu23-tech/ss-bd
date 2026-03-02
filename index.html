@@ -1,102 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>For You 🤍</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You 🤍</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0e14; /* Simple Dark Background */
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-<style>
-body{
-margin:0;
-padding:0;
-background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-color:white;
-font-family: 'Segoe UI', sans-serif;
-overflow:hidden;
-text-align:center;
-}
+        .container {
+            width: 85%;
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.05); /* Very light glass effect */
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
 
-/* Stars */
-.star{
-position:absolute;
-background:white;
-border-radius:50%;
-animation: twinkle 3s infinite alternate;
-}
+        h1 {
+            font-weight: 300;
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-align: center;
+        }
 
-@keyframes twinkle{
-from{opacity:0.2;}
-to{opacity:1;}
-}
+        .message-content {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #d1d1d1;
+            text-align: left;
+        }
 
-.container{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:80%;
-max-width:800px;
-animation: fadeIn 3s ease-in-out;
-z-index:10;
-}
+        .line {
+            margin-bottom: 20px;
+            display: block;
+        }
 
-h1{
-font-weight:300;
-margin-bottom:30px;
-}
+        /* Cursor blinking effect */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background-color: #58a6ff;
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
 
-p{
-font-size:18px;
-line-height:1.6;
-opacity:0;
-animation: textFade 2s forwards;
-}
+        @keyframes blink { 
+            50% { opacity: 0; } 
+        }
 
-p:nth-child(2){animation-delay:2s;}
-p:nth-child(3){animation-delay:4s;}
-p:nth-child(4){animation-delay:6s;}
-
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
-}
-
-@keyframes textFade{
-to{opacity:1;}
-}
-</style>
+        #playBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- Background Music -->
-<audio autoplay loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4bfb5e.mp3" type="audio/mpeg">
-</audio>
+    <button id="playBtn">🎵 Play Music</button>
+    <audio id="myAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
-<div class="container">
-<h1>Happy Birthday 🤍</h1>
+    <div class="container">
+        <h1>Happy Birthday 🤍</h1>
+        <div class="message-content" id="typewriter"></div>
+    </div>
 
-<p>Things may not be the same anymore, and maybe they never will be, but what we shared was always real to me. No matter how much distance came between us, the memories and the respect I have for you never faded.</p>
+    <script>
+        const messageParts = [
+            "If I ever said or did anything that hurt you, even unintentionally, I’m truly sorry. It was never my intention to cause you pain. Please forgive me if I ever became the reason for your sadness.",
+            "On your birthday, I just want you to know that I genuinely wish you peace, growth, and all the happiness in the world. You deserve a beautiful life, with or without me in it.",
+            "Happy Birthday, dear. I’ll always wish the best for you. 🤍"
+        ];
 
-<p>If I ever said or did anything that hurt you, even unintentionally, I’m truly sorry. It was never my intention to cause you pain. Please forgive me if I ever became the reason for your sadness.</p>
+        let partIdx = 0;
+        let charIdx = 0;
+        const target = document.getElementById("typewriter");
 
-<p>On your birthday, I just want you to know that I genuinely wish you peace, growth, and all the happiness in the world. You deserve a beautiful life, with or without me in it.</p>
+        function type() {
+            if (partIdx < messageParts.length) {
+                // Get current text typed so far
+                let currentFullText = messageParts.slice(0, partIdx).join("<br><br>");
+                if (partIdx > 0) currentFullText += "<br><br>";
+                
+                target.innerHTML = currentFullText + 
+                                  messageParts[partIdx].substring(0, charIdx) + 
+                                  '<span class="cursor"></span>';
+                
+                if (charIdx < messageParts[partIdx].length) {
+                    charIdx++;
+                    setTimeout(type, 35); // Typing speed
+                } else {
+                    partIdx++;
+                    charIdx = 0;
+                    setTimeout(type, 800); // Pause before next paragraph
+                }
+            } else {
+                // Remove cursor at the end
+                let finalContent = messageParts.join("<br><br>");
+                target.innerHTML = finalContent;
+            }
+        }
 
-<p>Happy Birthday, dear. I’ll always wish the best for you.</p>
-</div>
+        // Start typing
+        window.onload = () => setTimeout(type, 1000);
 
-<script>
-// Create Stars
-for(let i=0;i<100;i++){
-let star=document.createElement("div");
-star.classList.add("star");
-star.style.width=Math.random()*3+"px";
-star.style.height=star.style.width;
-star.style.top=Math.random()*100+"vh";
-star.style.left=Math.random()*100+"vw";
-star.style.animationDuration=(Math.random()*3+2)+"s";
-document.body.appendChild(star);
-}
-</script>
-
+        // Music toggle
+        const btn = document.getElementById('playBtn');
+        const audio = document.getElementById('myAudio');
+        btn.onclick = () => {
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "⏸ Pause";
+            } else {
+                audio.pause();
+                btn.innerText = "🎵 Play Music";
+            }
+        };
+    </script>
 </body>
 </html>
