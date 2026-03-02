@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For You 🤍</title>
+
+<style>
+body{
+margin:0;
+padding:0;
+background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+color:white;
+font-family: 'Segoe UI', sans-serif;
+overflow:hidden;
+text-align:center;
+}
+
+/* Stars */
+.star{
+position:absolute;
+background:white;
+border-radius:50%;
+animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:0.2;}
+to{opacity:1;}
+}
+
+.container{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:80%;
+max-width:800px;
+animation: fadeIn 3s ease-in-out;
+z-index:10;
+}
+
+h1{
+font-weight:300;
+margin-bottom:30px;
+}
+
+p{
+font-size:18px;
+line-height:1.6;
+opacity:0;
+animation: textFade 2s forwards;
+}
+
+p:nth-child(2){animation-delay:2s;}
+p:nth-child(3){animation-delay:4s;}
+p:nth-child(4){animation-delay:6s;}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+@keyframes textFade{
+to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4bfb5e.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+<h1>Happy Birthday 🤍</h1>
+
+<p>Things may not be the same anymore, and maybe they never will be, but what we shared was always real to me. No matter how much distance came between us, the memories and the respect I have for you never faded.</p>
+
+<p>If I ever said or did anything that hurt you, even unintentionally, I’m truly sorry. It was never my intention to cause you pain. Please forgive me if I ever became the reason for your sadness.</p>
+
+<p>On your birthday, I just want you to know that I genuinely wish you peace, growth, and all the happiness in the world. You deserve a beautiful life, with or without me in it.</p>
+
+<p>Happy Birthday, dear. I’ll always wish the best for you.</p>
+</div>
+
+<script>
+// Create Stars
+for(let i=0;i<100;i++){
+let star=document.createElement("div");
+star.classList.add("star");
+star.style.width=Math.random()*3+"px";
+star.style.height=star.style.width;
+star.style.top=Math.random()*100+"vh";
+star.style.left=Math.random()*100+"vw";
+star.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(star);
+}
+</script>
+
+</body>
+</html>
