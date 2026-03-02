@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You 🤍</title>
 <style>
 /* Body & background */
@@ -10,7 +11,7 @@ body{
   padding:0;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color:white;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow:hidden;
   text-align:center;
   height:100vh;
@@ -31,10 +32,8 @@ body{
 
 /* Shooting stars */
 @keyframes shoot {
-  to {
-    transform: translateX(120vw) translateY(60vh) rotate(45deg);
-    opacity:0;
-  }
+  0% { transform: translateX(0) translateY(0) rotate(45deg); opacity: 1; }
+  100% { transform: translateX(120vw) translateY(60vh) rotate(45deg); opacity:0; }
 }
 
 /* Container */
@@ -43,35 +42,43 @@ body{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:80%;
-  max-width:800px;
-  background-color: rgba(22,27,34,0.95);
+  width:85%;
+  max-width:600px;
+  background-color: rgba(22,27,34,0.85);
   padding: 30px;
-  border-radius:8px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  border-radius:15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   z-index:10;
-  overflow-y:auto;
   max-height:80vh;
+  overflow-y:auto;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 /* Text */
 h1{
   font-weight:300;
-  margin-bottom:30px;
+  margin-bottom:20px;
+  color: #58a6ff;
 }
 p{
   font-size:18px;
   line-height:1.6;
-  opacity:0;
+  margin-bottom: 15px;
+  text-align: left;
+  min-height: 1.2em;
+  /* Yahan fix kiya: opacity 1 kar di */
+  opacity: 1 !important; 
 }
 
 /* Cursor for typewriter */
 .cursor {
   display: inline-block;
-  width: 10px;
+  width: 8px;
+  height: 18px;
   background-color: #58a6ff;
-  margin-left:2px;
-  animation: blink 1s step-start infinite;
+  margin-left:5px;
+  vertical-align: middle;
+  animation: blink 0.8s step-start infinite;
 }
 @keyframes blink{
   50% { background-color: transparent; }
@@ -80,7 +87,7 @@ p{
 /* Floating hearts */
 @keyframes floatUp {
   0% { transform: translateY(0) scale(1); opacity:1; }
-  100% { transform: translateY(-80px) scale(1.2); opacity:0; }
+  100% { transform: translateY(-100px) scale(1.5); opacity:0; }
 }
 
 /* Music play button */
@@ -88,29 +95,25 @@ p{
   position:fixed;
   top:20px;
   right:20px;
-  z-index:20;
+  z-index:100;
   padding:10px 15px;
   background:#58a6ff;
   border:none;
-  border-radius:5px;
+  border-radius:20px;
   color:white;
-  font-size:16px;
+  font-size:14px;
   cursor:pointer;
-}
-#playMusic:hover{
-  background:#1f6feb;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 </style>
 </head>
 <body>
 
-<!-- Music -->
 <audio id="bgMusic" loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4bfb5e.mp3" type="audio/mpeg">
 </audio>
 <button id="playMusic">🎵 Play Music</button>
 
-<!-- Container -->
 <div class="container">
   <h1>Happy Birthday 🤍</h1>
   <p id="line1"></p>
@@ -122,11 +125,17 @@ p{
 <script>
 // =================== Music Button ===================
 const music = document.getElementById('bgMusic');
-document.getElementById('playMusic').addEventListener('click',()=>{
-  music.play();
+document.getElementById('playMusic').addEventListener('click', function() {
+  if (music.paused) {
+    music.play();
+    this.innerText = "⏸ Pause Music";
+  } else {
+    music.pause();
+    this.innerText = "🎵 Play Music";
+  }
 });
 
-// =================== Typewriter ===================
+// =================== Typewriter Logic ===================
 const lines = [
 `Things may not be the same anymore, and maybe they never will be, but what we shared was always real to me. No matter how much distance came between us, the memories and the respect I have for you never faded.`,
 `If I ever said or did anything that hurt you, even unintentionally, I’m truly sorry. It was never my intention to cause you pain. Please forgive me if I ever became the reason for your sadness.`,
@@ -134,74 +143,83 @@ const lines = [
 `Happy Birthday, dear. I’ll always wish the best for you. 🤍`
 ];
 
-const delay = 50; // typing speed in ms
-function typeLine(lineIndex, charIndex){
-  if(lineIndex >= lines.length) return;
-  const lineEl = document.getElementById(`line${lineIndex+1}`);
-  lineEl.innerHTML += lines[lineIndex][charIndex] || '';
-  if(charIndex < lines[lineIndex].length - 1){
-    setTimeout(()=>typeLine(lineIndex,charIndex+1),delay);
-  } else {
-    if(lineIndex < lines.length -1){
-      const cursor = document.createElement('span');
-      cursor.classList.add('cursor');
-      document.getElementById(`line${lineIndex+2}`).appendChild(cursor);
-      setTimeout(()=>typeLine(lineIndex+1,0),delay*2);
+let currentLine = 0;
+let currentChar = 0;
+const delay = 40; // typing speed
+
+function type() {
+  if (currentLine < lines.length) {
+    let targetElement = document.getElementById(`line${currentLine + 1}`);
+    
+    // Cursor handling
+    let cursor = document.querySelector('.cursor');
+    if(cursor) cursor.remove();
+    
+    targetElement.innerHTML = lines[currentLine].substring(0, currentChar) + '<span class="cursor"></span>';
+    
+    if (currentChar < lines[currentLine].length) {
+      currentChar++;
+      setTimeout(type, delay);
+    } else {
+      // Remove cursor from finished line and move to next
+      targetElement.innerHTML = lines[currentLine]; 
+      currentLine++;
+      currentChar = 0;
+      setTimeout(type, 800); // Pause between lines
     }
   }
 }
-// Start typing with cursor
-const cursorStart = document.createElement('span');
-cursorStart.classList.add('cursor');
-document.getElementById('line1').appendChild(cursorStart);
-typeLine(0,0);
 
-// =================== Stars ===================
-document.addEventListener("DOMContentLoaded", ()=>{
-  for(let i=0;i<100;i++){
+// Start typing on load
+window.onload = type;
+
+// =================== Stars Background ===================
+function createStars() {
+  for(let i=0; i<100; i++){
     let star = document.createElement("div");
     star.classList.add("star");
-    star.style.width=Math.random()*3+"px";
-    star.style.height=star.style.width;
-    star.style.top=Math.random()*100+"vh";
-    star.style.left=Math.random()*100+"vw";
-    star.style.animationDuration=(Math.random()*3+2)+"s";
+    let size = Math.random()*3;
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+    star.style.top = Math.random()*100 + "vh";
+    star.style.left = Math.random()*100 + "vw";
+    star.style.animationDuration = (Math.random()*3 + 2) + "s";
     document.body.appendChild(star);
   }
-});
+}
+createStars();
 
-// =================== Shooting Stars ===================
+// Shooting stars function
 function shootingStar(){
   let star = document.createElement("div");
-  star.classList.add("star");
-  star.style.width="2px";
-  star.style.height="2px";
-  star.style.top = Math.random()*50 + "vh";
-  star.style.left = "-10px";
+  star.style.position = "absolute";
+  star.style.width = "2px";
+  star.style.height = "2px";
   star.style.background = "white";
-  star.style.opacity = 0.8;
-  star.style.transform = "rotate(45deg)";
-  star.style.animation = "shoot 1s linear forwards";
+  star.style.top = Math.random()*40 + "vh";
+  star.style.left = "-10px";
+  star.style.animation = "shoot 2s linear forwards";
+  star.style.zIndex = "1";
   document.body.appendChild(star);
-  setTimeout(()=>document.body.removeChild(star),1000);
+  setTimeout(() => star.remove(), 2000);
 }
-setInterval(shootingStar,3000);
+setInterval(shootingStar, 4000);
 
-// =================== Clickable Hearts ===================
-document.body.addEventListener("click",(e)=>{
-  const colors = ["#ff4d6d","#ffb347","#4dffb3","#4da6ff","#ff71ce","#ffff4d"];
+// =================== Heart Click Effect ===================
+document.addEventListener("click", (e) => {
+  if(e.target.id === 'playMusic') return;
+  const colors = ["#ff4d6d", "#ffb347", "#4dffb3", "#ff71ce"];
   let heart = document.createElement("div");
-  heart.innerHTML="❤️";
-  heart.style.position="absolute";
-  heart.style.left=e.clientX+"px";
-  heart.style.top=e.clientY+"px";
-  heart.style.fontSize = `${12 + Math.random()*20}px`;
-  heart.style.color = colors[Math.floor(Math.random()*colors.length)];
-  heart.style.zIndex = 20;
+  heart.innerHTML = "❤️";
+  heart.style.position = "fixed";
+  heart.style.left = (e.clientX - 10) + "px";
+  heart.style.top = (e.clientY - 10) + "px";
+  heart.style.fontSize = "20px";
   heart.style.pointerEvents = "none";
-  heart.style.animation="floatUp 1.5s forwards ease-out";
+  heart.style.animation = "floatUp 1s forwards ease-out";
+  heart.style.zIndex = "100";
   document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),1500);
+  setTimeout(() => heart.remove(), 1000);
 });
 </script>
 
